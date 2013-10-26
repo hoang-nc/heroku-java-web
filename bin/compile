@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+# fail fast
+set -e
+
+
+BUILDPACK_DIR=`cd $(dirname $0); cd ..; pwd`
+
+# parse args
+BUILD_DIR=$1
+CACHE_DIR=$2
+
+curl --silent --location http://heroku-jvm-common.s3.amazonaws.com/jvm-buildpack-common.tar.gz | tar xz
+. bin/java
+
+
+
+# create default system.properties 
+if [ ! -f ${BUILD_DIR}/system.properties ]; then
+  echo "java.runtime.version=1.7" > ${BUILD_DIR}/system.properties
+fi
+
+# install JDK 
+javaVersion=$(detect_java_version ${BUILD_DIR})
+echo -n "-----> Installing OpenJDK ${javaVersion}..."
+install_java ${BUILD_DIR} ${javaVersion}
+jdk_overlay ${BUILD_DIR}
+echo " done"
+
+
+# copy webapp-runner.jar
+mkdir ${BUILD_DIR}/.runner
+cp ${BUILDPACK_DIR}/runner/webapp-runner.jar ${BUILD_DIR}/.runner
+
+echo -n "-----> Creating boot.sh..."
+echo 'java ${JAVA_OPTS} -jar ./.runner/webapp-runner.jar --port ${PORT} ${WEBAPP_RUNNER_OPTS} ./build/web &' >${BUILD_DIR}/boot.sh
+
+if [  -f $BUILD_DIR/domain.inf  ]; then
+	echo 'DOMAIN=$(head -1 domain.inf)' >>${BUILD_DIR}/boot.sh
+	echo 'while [ 1 ];' >>${BUILD_DIR}/boot.sh
+	echo 'do' >>${BUILD_DIR}/boot.sh
+	echo 'sleep 1800' >>${BUILD_DIR}/boot.sh
+	echo 'curl -LI http://anonymouse.org/cgi-bin/anon-www.cgi/http://$DOMAIN >/dev/null 2>&1' >>${BUILD_DIR}/boot.sh
+	echo 'done' >>${BUILD_DIR}/boot.sh
+fi
+
+echo " done"
+
+echo -n "-----> Creating Procfile..."
+echo 'web: sh boot.sh' >${BUILD_DIR}/Procfile
+echo " done"
+
