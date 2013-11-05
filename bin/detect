@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-if [ -f $1/build/web/WEB-INF/web.xml ]; then
+if [ -f $1/build/web/META-INF/context.xml ]; then
   echo        "Java web" &&  exit 0
 else
   echo        "No" &&  exit 1
