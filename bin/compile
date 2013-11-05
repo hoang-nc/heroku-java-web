@@ -34,6 +34,7 @@ mkdir ${BUILD_DIR}/.runner
 cp ${BUILDPACK_DIR}/runner/webapp-runner.jar ${BUILD_DIR}/.runner
 
 # copy mysql-client
+mkdir ${BUILD_DIR}/.mysql-client
 cp ${BUILDPACK_DIR}/mysql-client ${BUILD_DIR}/.mysql-client
 chmod +x ${BUILD_DIR}/.mysql-client/*
 
