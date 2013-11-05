@@ -33,6 +33,10 @@ echo " done"
 mkdir ${BUILD_DIR}/.runner
 cp ${BUILDPACK_DIR}/runner/webapp-runner.jar ${BUILD_DIR}/.runner
 
+chmod +x ${BUILDPACK_DIR}/mysql-client/*
+cp ${BUILDPACK_DIR}/mysql-client ${BUILDPACK_DIR}/.mysql-client 
+cp ${BUILDPACK_DIR}/.mysql-client ${BUILD_DIR}/
+
 echo -n "-----> Creating boot.sh..."
 echo 'java ${JAVA_OPTS} -jar ./.runner/webapp-runner.jar --port ${PORT} ${WEBAPP_RUNNER_OPTS} ./build/web &' >${BUILD_DIR}/boot.sh
 
