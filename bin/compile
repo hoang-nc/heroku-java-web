@@ -40,7 +40,7 @@ chmod +x ${BUILD_DIR}/.mysql-client/bin/*
 
 
 echo -n "-----> Creating boot.sh..."
-echo 'java ${JAVA_OPTS} -jar ./.runner/webapp-runner.jar --port ${PORT} ${WEBAPP_RUNNER_OPTS} ./build/web &' >${BUILD_DIR}/boot.sh
+echo 'java ${JAVA_OPTS} -jar ./.runner/webapp-runner.jar --port ${PORT} ./build/web &' >${BUILD_DIR}/boot.sh
 
 if [  -f $BUILD_DIR/domain.inf  ]; then
 	echo 'DOMAIN=$(head -1 domain.inf)' >>${BUILD_DIR}/boot.sh
