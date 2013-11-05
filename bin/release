@@ -6,7 +6,7 @@ cat <<EOF
 config_vars:
   PATH: /app/.jdk/bin:/app/.mysql-client:/usr/local/bin:/usr/bin:/bin
   JAVA_HOME: /app/.jdk
-  JAVA_OPTS: -Xmx2048m -Xss8m -XX:+UseCompressedOops
+  JAVA_OPTS: -Xmx1024m -Xss8m -XX:+UseCompressedOops
   WEBAPP_RUNNER_OPTS: --session-store memcache
 addons:
   cleardb:ignite
