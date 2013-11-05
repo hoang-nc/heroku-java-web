@@ -6,9 +6,10 @@ BUILD_DIR=$1
 cat <<EOF
 ---
 config_vars:
-  PATH: /app/.jdk/bin:/usr/local/bin:/usr/bin:/bin
+  PATH: /app/.jdk/bin:/app/.mysql-client:/usr/local/bin:/usr/bin:/bin
   JAVA_HOME: /app/.jdk
   JAVA_OPTS: -Xmx384m -Xss512k -XX:+UseCompressedOops
+  WEBAPP_RUNNER_OPTS: --session-store memcache
 addons:
   cleardb
 EOF
