@@ -2,7 +2,7 @@
 # bin/detect <build-dir>
 
 if [ -f $1/build/web/META-INF/context.xml ]; then
-  echo        "Java web" &&  exit 0
+  echo        "Java web built" &&  exit 0
 else
   echo        "No" &&  exit 1
 fi

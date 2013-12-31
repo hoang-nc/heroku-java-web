@@ -33,17 +33,11 @@ echo " done"
 mkdir ${BUILD_DIR}/.runner
 cp ${BUILDPACK_DIR}/runner/webapp-runner.jar ${BUILD_DIR}/.runner
 
-# copy mysql-client
-mkdir -p ${BUILD_DIR}/.mysql-client/bin
-cp ${BUILDPACK_DIR}/mysql-client/* ${BUILD_DIR}/.mysql-client/bin
-chmod +x ${BUILD_DIR}/.mysql-client/bin/*
-
 
 echo -n "-----> Creating boot.sh..."
-
-
+run='java ${JAVA_OPTS} -jar ./.runner/webapp-runner.jar --port ${PORT} ./build/web'
 if [  -f $BUILD_DIR/domain.inf  ]; then
-	echo 'java ${JAVA_OPTS} -jar ./.runner/webapp-runner.jar --port ${PORT} ./build/web &' >${BUILD_DIR}/boot.sh
+	echo "$run &" >${BUILD_DIR}/boot.sh
 	echo 'DOMAIN=$(head -1 domain.inf)' >>${BUILD_DIR}/boot.sh
 	echo 'while [ 1 ];' >>${BUILD_DIR}/boot.sh
 	echo 'do' >>${BUILD_DIR}/boot.sh
@@ -51,7 +45,7 @@ if [  -f $BUILD_DIR/domain.inf  ]; then
 	echo 'curl -LI http://anonymouse.org/cgi-bin/anon-www.cgi/http://$DOMAIN >/dev/null 2>&1' >>${BUILD_DIR}/boot.sh
 	echo 'done' >>${BUILD_DIR}/boot.sh
 else
-	echo 'java ${JAVA_OPTS} -jar ./.runner/webapp-runner.jar --port ${PORT} ./build/web' >${BUILD_DIR}/boot.sh
+	echo "$run" >${BUILD_DIR}/boot.sh
 fi
 
 echo " done"
