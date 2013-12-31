@@ -13,23 +13,11 @@ Usage
 Build your project by "Run - Build Project (F11)" in Netbean IDE, after build successful there are 2 folder in your project: <b>build</b> and <b>dist</b>
 
 		HELLOJSP
-		├───build
-		│   ├───empty
-		│   ├───generated-sources
-		│   │   └───ap-source-output
-		│   └───web
-		│       ├───META-INF
-		│       └───WEB-INF
-		│           └───classes
-		├───dist
-		├───nbproject
-		│   └───private
-		├───src
-		│   ├───conf
-		│   └───java
-		└───web
-			├───META-INF
-			└───WEB-INF
+		└───build
+		    └───web
+		        ├───META-INF
+		        └───WEB-INF
+		            └───classes 
 
 You have to keep <b>build</b> folder for deploying, with <b>dist</b> folder you should add to [git ignore](https://help.github.com/articles/ignoring-files) for saving deploy time.
 
